@@ -99,6 +99,21 @@
             letter-spacing: 2px;
             text-shadow: 0 0 15px #ff0000;
         }
+        @keyframes creepyFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-0.5deg);
+        filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+    }
+    50% {
+        transform: translateY(-8px) rotate(0.5deg);
+        filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8));
+    }
+}
+
+.animate-creepy-float {
+    display: inline-block;
+    animation: creepyFloat 3s ease-in-out infinite;
+}
     </style>
 </head>
 <body class="min-h-[100dvh] w-full flex flex-col justify-evenly items-center p-4">
@@ -154,8 +169,8 @@
         </p>
 
         <!-- Regla obligatoria final -->
-        <p class="terror-font text-4xl md:text-5xl text-[#ff0000] mt-10 animate-pulse">
-            ⚠️ ¡Disfraz Obligatorio! ⚠️
+        <p class="terror-font text-2xl sm:text-3xl md:text-5xl text-[#ff0000] mt-10 whitespace-nowrap animate-creepy-float">
+    ⚠️ ¡Disfraz Obligatorio! ⚠️
         </p>
 
     </div>
