@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merienda de Halloween</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fuentes: Courier para el look retro/hacker, y Creepster para el terror -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Creepster&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background-color: #0d0d0d;
+            color: #39ff14; /* Verde neón por defecto */
+        }
+
+        /* 1. Animación del Fantasmita */
+        @keyframes floatGhost {
+            0% { left: -10%; transform: translateY(0px) rotate(0deg) scale(1); }
+            25% { transform: translateY(-30px) rotate(15deg) scale(1.1); }
+            50% { transform: translateY(10px) rotate(-10deg) scale(1); }
+            75% { transform: translateY(-20px) rotate(10deg) scale(1.1); }
+            100% { left: 110%; transform: translateY(0px) rotate(0deg) scale(1); }
+        }
+        .ghost-layer {
+            position: absolute;
+            top: 15%;
+            font-size: 5rem;
+            animation: floatGhost 15s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        /* 2. Título irrompible con clamp */
+        .title-clamp {
+            /* clamp(mínimo, valor ideal según ancho de pantalla, máximo) */
+            font-size: clamp(1.2rem, 4.5vw, 4rem); 
+            white-space: nowrap;
+            color: #ff4500;
+            text-shadow: 0 0 10px #ff4500, 0 0 20px #ff0000;
+        }
+
+        /* 3. Estilos del Botón de Slime */
+        .slime-btn {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #39ff14;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+        .slime-btn:hover {
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.8);
+        }
+
+        /* La capa de líquido que cae */
+        .slime-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #39ff14;
+            transform: translateY(-100%);
+            transition: transform 0.8s cubic-bezier(0.5, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        /* Las gotas colgando del líquido */
+        .slime-drip {
+            position: absolute;
+            background-color: #39ff14;
+            bottom: -20px;
+            border-radius: 0 0 50px 50px;
+        }
+        .drip-1 { width: 30px; height: 35px; left: 15%; }
+        .drip-2 { width: 45px; height: 50px; left: 45%; }
+        .drip-3 { width: 25px; height: 40px; left: 75%; }
+
+        /* Clase activa para detonar la animación */
+        .slime-btn.active .slime-fill {
+            transform: translateY(0);
+        }
+
+        /* Texto sobre el botón */
+        .btn-text {
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        /* 4. Fuente terrorífica para la advertencia */
+        .terror-font {
+            font-family: 'Creepster', cursive;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px #ff0000;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center py-10 px-2 overflow-x-hidden relative">
+
+    <!-- Fantasma flotante -->
+    <div class="ghost-layer">👻</div>
+
+    <div class="relative z-10 w-full max-w-4xl flex flex-col items-center text-center space-y-8 bg-[#0d0d0d]/80 p-6 rounded-3xl backdrop-blur-sm">
+        
+        <!-- Título principal -->
+        <h1 class="title-clamp font-bold tracking-wider">
+            ☠️ Merienda de Halloween ☠️
+        </h1>
+        
+        <!-- Ubicación -->
+        <p class="text-xl md:text-3xl font-bold text-[#ffaa00]">
+            Te esperamos en Gallo 988, Banfield.
+        </p>
+        
+        <!-- Actividades -->
+        <div class="border border-[#39ff14]/30 bg-[#1a1a1a] p-4 md:p-6 rounded-xl shadow-lg shadow-[#39ff14]/10 max-w-2xl w-full">
+            <h2 class="text-lg md:text-2xl text-white font-bold mb-3 border-b border-[#39ff14]/50 pb-2">El evento incluye:</h2>
+            <ul class="text-md md:text-xl space-y-2 text-[#39ff14] text-left list-disc list-inside px-4">
+                <li>Exquisita Merienda</li>
+                <li>Set exclusivo para fotos</li>
+                <li>Fotógrafa profesional</li>
+                <li>Juegos y Actividades</li>
+            </ul>
+        </div>
+
+        <!-- Botón de Precio Interactívo -->
+        <div id="slime-button" class="slime-btn cursor-pointer bg-[#111] rounded-2xl p-6 md:p-8 mt-4 select-none max-w-xl w-full mx-auto">
+            
+            <!-- Capa de baba radiactiva oculta arriba -->
+            <div class="slime-fill flex justify-center">
+                <div class="slime-drip drip-1"></div>
+                <div class="slime-drip drip-2"></div>
+                <div class="slime-drip drip-3"></div>
+            </div>
+            
+            <!-- Texto interactivo -->
+            <p id="dynamic-text" class="btn-text text-xl md:text-3xl font-bold">
+                Precio de la entrada a Voluntad ☠️
+            </p>
+            <p id="click-hint" class="btn-text text-sm md:text-base mt-2 opacity-70">
+                (Tocá para ver sugerencia)
+            </p>
+        </div>
+
+        <!-- Fecha y Confirmación -->
+        <p class="text-lg md:text-2xl text-white mt-4 bg-[#ff4500]/20 px-6 py-3 rounded-full border border-[#ff4500]">
+            Te esperamos el sábado 31/10, por favor confirmar asistencia
+        </p>
+
+        <!-- Regla obligatoria final -->
+        <p class="terror-font text-4xl md:text-5xl text-[#ff0000] mt-10 animate-pulse">
+            ⚠️ ¡Es obligatorio el disfraz! ⚠️
+        </p>
+
+    </div>
+
+    <script>
+        const slimeBtn = document.getElementById('slime-button');
+        const dynamicText = document.getElementById('dynamic-text');
+        const clickHint = document.getElementById('click-hint');
+        let isRevealed = false;
+
+        slimeBtn.addEventListener('click', () => {
+            if (isRevealed) return; // Evita doble click
+            isRevealed = true;
+
+            // 1. Disparamos la animación CSS bajando el telón de slime
+            slimeBtn.classList.add('active');
+            
+            // 2. Ocultamos suavemente el texto actual
+            dynamicText.style.opacity = '0';
+            clickHint.style.opacity = '0';
+
+            // 3. Justo cuando el slime llena la caja, cambiamos el texto y color
+            setTimeout(() => {
+                dynamicText.innerText = 'Sugerido: 15k';
+                // Cambiamos el color de la fuente a negro puro para que contraste con el slime verde
+                dynamicText.style.color = '#000000'; 
+                // Lo volvemos a mostrar
+                dynamicText.style.opacity = '1';
+                
+                // Eliminamos el subtítulo de "tocá para ver"
+                clickHint.style.display = 'none';
+            }, 400); // 400ms calza perfecto con la animación de bajada
+        });
+    </script>
+</body>
+</html>
